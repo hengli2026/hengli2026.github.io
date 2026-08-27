@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import PublicationWorkflowCue, { type WorkflowKind } from './PublicationWorkflowCue';
 
 const navigation = [
   ['Publications', '#publications'],
@@ -7,6 +8,7 @@ const navigation = [
 type Publication = {
   title: string;
   authors: string[];
+  workflow?: WorkflowKind;
   arxiv?: string;
   manuscript?: string;
   journal?: {
@@ -24,16 +26,19 @@ const preprints: Publication[] = [
   {
     title: 'Forcing quasirandomness via rooted F-densities',
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2608.08679',
   },
   {
     title: 'Intervals of uniform Turán densities',
     authors: ['Heng Li', 'Xizhi Liu', 'Oleg Pikhurko'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2608.04790',
   },
   {
     title: 'Nearly sharp bounds for lattice coverings by convex bodies',
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2607.28429',
   },
   {
@@ -44,11 +49,13 @@ const preprints: Publication[] = [
   {
     title: "Strong counterexamples to Mubayi's supersaturation conjecture in every uniformity",
     authors: ['Heng Li', 'Hong Liu', 'Xizhi Liu', 'Jing Wang'],
+    workflow: 'human',
     arxiv: 'https://arxiv.org/abs/2606.26735',
   },
   {
     title: 'Sharp bounds for minimal dependencies of linear-form powers',
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2606.24349',
   },
   {
@@ -59,16 +66,19 @@ const preprints: Publication[] = [
   {
     title: 'Physical-space scarring in generic Bunimovich stadia',
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2606.02426',
   },
   {
     title: "On Mubayi's polynomial-ideal conjecture and a hypergraph Turán theorem",
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2605.24507',
   },
   {
     title: 'A single 3-graph with infinite stability number',
     authors: ['Heng Li', 'Xizhi Liu'],
+    workflow: 'ai',
     arxiv: 'https://arxiv.org/abs/2605.21877',
   },
   {
@@ -261,7 +271,14 @@ const acceptedPublications: Publication[] = [
   },
 ];
 
-const publicationGroups = [
+type PublicationGroup = {
+  title: string;
+  description: string;
+  papers: Publication[];
+  workflow?: WorkflowKind;
+};
+
+const publicationGroups: PublicationGroup[] = [
   {
     title: 'Preprints / Submitted',
     description: 'Comments are welcome.',
@@ -276,6 +293,7 @@ const publicationGroups = [
     title: 'Research Notes',
     description: '',
     papers: researchNotes,
+    workflow: 'ai',
   },
 ];
 
@@ -426,20 +444,24 @@ export default function Home() {
                       )}
                     </div>
 
-                    {(paper.arxiv || paper.manuscript) && (
-                      <div className="publication-links" aria-label={`Links for ${paper.title}`}>
-                        {paper.arxiv && (
-                          <a href={paper.arxiv} rel="noreferrer" target="_blank">
-                            arXiv ↗
-                          </a>
-                        )}
-                        {paper.manuscript && (
-                          <a href={paper.manuscript} rel="noreferrer" target="_blank">
-                            Manuscript ↗
-                          </a>
-                        )}
-                      </div>
-                    )}
+                    <div className="publication-actions">
+                      <PublicationWorkflowCue kind={paper.workflow ?? group.workflow ?? 'human'} />
+
+                      {(paper.arxiv || paper.manuscript) && (
+                        <div className="publication-links" aria-label={`Links for ${paper.title}`}>
+                          {paper.arxiv && (
+                            <a href={paper.arxiv} rel="noreferrer" target="_blank">
+                              arXiv ↗
+                            </a>
+                          )}
+                          {paper.manuscript && (
+                            <a href={paper.manuscript} rel="noreferrer" target="_blank">
+                              Manuscript ↗
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ol>
