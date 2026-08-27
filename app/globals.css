@@ -392,7 +392,7 @@ figure {
   border-radius: 32px;
   margin: 0 auto 28px;
   max-width: 1180px;
-  padding: 112px 32px 128px;
+  padding: 64px 32px 112px;
   scroll-margin-top: 76px;
 }
 
@@ -702,7 +702,7 @@ footer a {
   .content-section {
     border-radius: 24px;
     margin: 0 12px 16px;
-    padding: 82px 20px 92px;
+    padding: 48px 20px 82px;
     scroll-margin-top: 68px;
   }
 
